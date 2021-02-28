@@ -117,6 +117,41 @@ var crudApp = new function() {
             deleteButton.setAttribute('onclick', 'crudApp.Delete(this)'); // 이 버튼이 클릭될 때 실행할 메서드
             this.td.appendChild(deleteButton);
         }
+
+        // 입력행 추가
+        tr = table.insertRow(-1);
+        for(var j = 0; j < this.col.length; j++){
+            var newCell = tr.insertCell(-1);
+            if(j > 1){
+                if(j==2){
+                    // 선택 항목을 만들어주기
+                    var select = document.createElement('select');
+                    select.innerHTML = '<option value=""></option>';
+                    for(var k = 0; k < this.category.length; k++){
+                        select.innerHTML = select.innerHTML +
+                                           '<option value="'+this.category[k]+'">' +
+                                           this.category[k]+"</option>";
+                    }
+                    newCell.appendChild(select);
+                }else{
+                    var textBox = document.createElement('input');
+                    textBox.setAttribute('type', 'text');
+                    textBox.setAttribute('value', '');
+                    newCell.appendChild(textBox);
+                }
+            }
+        }
+
+        // create 버튼 만들기
+        this.td = document.createElement('td');
+        tr.appendChild(this.td);
+        var createButton = document.createElement('input');
+        createButton.setAttribute('type', 'button');
+        createButton.setAttribute('value', 'Create');
+        createButton.setAttribute('id', 'Create');
+        createButton.setAttribute('style', 'background-color: #207dd1');
+        createButton.setAttribute('onclick', 'crudApp.create(this)');
+        this.td.appendChild(createButton);
     };
 }
 crudApp.createTable();
