@@ -122,7 +122,7 @@ var crudApp = new function() {
         tr = table.insertRow(-1);
         for(var j = 0; j < this.col.length; j++){
             var newCell = tr.insertCell(-1);
-            if(j > 1){
+            if(j > 0){
                 if(j==2){
                     // 선택 항목을 만들어주기
                     var select = document.createElement('select');
@@ -150,7 +150,7 @@ var crudApp = new function() {
         createButton.setAttribute('value', 'Create');
         createButton.setAttribute('id', 'Create');
         createButton.setAttribute('style', 'background-color: #207dd1');
-        createButton.setAttribute('onclick', 'crudApp.create(this)');
+        createButton.setAttribute('onclick', 'crudApp.Create(this)');
         this.td.appendChild(createButton);
     };
 
@@ -160,6 +160,36 @@ var crudApp = new function() {
         this.myClass.splice((targetIdx-1), 1);
         this.createTable();
     };
+
+    this.Create = function(oButton){
+        var targetIdx = oButton.parentNode.parentNode.rowIndex;
+        var rowData = document.getElementById('classTable').rows[targetIdx];
+
+        var obj = [];
+        for(var i = 1; i < this.col.length; i++){
+            var td = rowData.getElementsByTagName("td")[i];
+            if(td.childNodes[0].getAttribute('type') === 'text' || td.childNodes[0].tagName === 'SELECT'){
+                var textValue = td.childNodes[0].value;
+                if(textValue == ''){
+                    obj = [];
+                    alert('모든 항목을 입력해주세요.');
+                    break;
+                }else if(i === 3 && parseInt(td.childNodes[0].value) === 'NaN'){
+                    obj = [];
+                    alert('학점은 숫자만 입력이 가능합니다.');
+                    break;
+                }else{
+                    obj[this.col[i]] = textValue;
+                }
+            }
+        }
+
+        if(obj['className'] !== undefined){
+            obj[this.col[0]] = this.myClass.length + 1;
+            this.myClass.push(obj);
+            this.createTable();
+        }
+    }
 }
 crudApp.createTable();
 
