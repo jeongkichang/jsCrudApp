@@ -153,6 +153,13 @@ var crudApp = new function() {
         createButton.setAttribute('onclick', 'crudApp.create(this)');
         this.td.appendChild(createButton);
     };
+
+    // 삭제 메서드
+    this.Delete = function(oButton){
+        var targetIdx = oButton.parentNode.parentNode.rowIndex;
+        this.myClass.splice((targetIdx-1), 1);
+        this.createTable();
+    };
 }
 crudApp.createTable();
 
