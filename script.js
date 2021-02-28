@@ -79,6 +79,43 @@ var crudApp = new function() {
                 var tableCell = tr.insertCell(-1);
                 tableCell.innerHTML = this.myClass[i][this.col[j]];
             }
+
+            // 버튼 만들기
+            // update 버튼 만들기
+            this.td = document.createElement('td');
+            tr.appendChild(this.td);
+
+            var updateButton = document.createElement('input');
+            updateButton.setAttribute('type', 'button');
+            updateButton.setAttribute('value', 'Update');
+            updateButton.setAttribute('id', 'Edit' + i);
+            updateButton.setAttribute('style', 'background-color: #44cceb');
+            updateButton.setAttribute('onclick', 'crudApp.Update(this)'); // 이 버튼이 클릭될 때 실행할 메서드
+            this.td.appendChild(updateButton);
+
+            // Save 버튼 만들기
+            this.td = document.createElement('td');
+            tr.appendChild(this.td);
+
+            var saveButton = document.createElement('input');
+            saveButton.setAttribute('type', 'button');
+            saveButton.setAttribute('value', 'Save');
+            saveButton.setAttribute('id', 'Save' + i);
+            saveButton.setAttribute('style', 'display: none;');
+            saveButton.setAttribute('onclick', 'crudApp.Save(this)'); // 이 버튼이 클릭될 때 실행할 메서드
+            this.td.appendChild(saveButton);
+
+            // Delete 버튼 만들기
+            this.td = document.createElement('td');
+            tr.appendChild(this.td);
+
+            var deleteButton = document.createElement('input');
+            deleteButton.setAttribute('type', 'button');
+            deleteButton.setAttribute('value', 'Delete');
+            deleteButton.setAttribute('id', 'Delete' + i);
+            deleteButton.setAttribute('style', 'background-color: #ed5650;');
+            deleteButton.setAttribute('onclick', 'crudApp.Delete(this)'); // 이 버튼이 클릭될 때 실행할 메서드
+            this.td.appendChild(deleteButton);
         }
     };
 }
