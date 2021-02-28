@@ -88,13 +88,12 @@ var crudApp = new function() {
             var updateButton = document.createElement('input');
             updateButton.setAttribute('type', 'button');
             updateButton.setAttribute('value', 'Update');
-            updateButton.setAttribute('id', 'Edit' + i);
+            updateButton.setAttribute('id', 'Update' + i);
             updateButton.setAttribute('style', 'background-color: #44cceb');
             updateButton.setAttribute('onclick', 'crudApp.Update(this)'); // 이 버튼이 클릭될 때 실행할 메서드
             this.td.appendChild(updateButton);
 
             // Save 버튼 만들기
-            this.td = document.createElement('td');
             tr.appendChild(this.td);
 
             var saveButton = document.createElement('input');
@@ -192,7 +191,6 @@ var crudApp = new function() {
     };
 
     this.Update = function(oButton){
-        console.log(1);
         var targetIdx = oButton.parentNode.parentNode.rowIndex;
         var rowData = document.getElementById('classTable').rows[targetIdx];
 
@@ -215,7 +213,24 @@ var crudApp = new function() {
                 td.appendChild(input);
             }
         }
-    }
+
+        var saveButton = document.getElementById('Save' + (targetIdx -1));
+        saveButton.setAttribute('style', 'display: block; background-color: #2dbf64;');
+        oButton.setAttribute('style', 'display: none;');
+    };
+
+    this.Save = function(oButton){
+        var targetIdx = oButton.parentNode.parentNode.rowIndex;
+        var rowData = document.getElementById('classTable').rows[targetIdx];
+
+        for(var i = 1; i < this.col.length; i++){
+            var td = rowData.getElementsByTagName("td")[i];
+            if(td.childNodes[0].getAttribute('type') === 'text' || td.childNodes[0].tagName === 'SELECT'){
+                this.myClass[targetIdx - 1][this.col[i]] = td.childNodes[0].value;
+            }
+        }
+        this.createTable();
+    };
 }
 crudApp.createTable();
 
