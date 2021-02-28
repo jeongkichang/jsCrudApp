@@ -69,6 +69,17 @@ var crudApp = new function() {
         var div = document.getElementById('container');
         div.innerHTML = '수강관리 앱';
         div.appendChild(table);
+
+        // td 작성
+        for(var i = 0; i < this.myClass.length; i++){
+            // table에 일단 한 행을 추가
+            tr = table.insertRow(-1);
+            // table header 길이만큼 순회하며 거기에 매칭되는 데이터 갖고 오기
+            for(var j = 0; j < this.col.length; j++){
+                var tableCell = tr.insertCell(-1);
+                tableCell.innerHTML = this.myClass[i][this.col[j]];
+            }
+        }
     };
 }
 crudApp.createTable();
