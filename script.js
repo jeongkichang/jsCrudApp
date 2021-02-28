@@ -189,6 +189,32 @@ var crudApp = new function() {
             this.myClass.push(obj);
             this.createTable();
         }
+    };
+
+    this.Update = function(oButton){
+        console.log(1);
+        var targetIdx = oButton.parentNode.parentNode.rowIndex;
+        var rowData = document.getElementById('classTable').rows[targetIdx];
+
+        for(var i = 1; i < this.col.length; i++){
+            if(i == 2){
+                var td = rowData.getElementsByTagName("td")[i];
+                var select = document.createElement("select");
+                select.innerHTML = '<option value="'+td.innerText+'">'+td.innerText+"</option>";
+                for(var k = 0; k < this.category.length; k++){
+                    select.innerHTML = select.innerHTML + '<option value="'+this.category[k]+'">'+this.category[k]+"</option>";
+                }
+                td.innerText = '';
+                td.appendChild(select);
+            }else{
+                var td = rowData.getElementsByTagName("td")[i];
+                var input = document.createElement("input");
+                input.setAttribute("type", "text");
+                input.setAttribute("value", td.innerText);
+                td.innerText = '';
+                td.appendChild(input);
+            }
+        }
     }
 }
 crudApp.createTable();
