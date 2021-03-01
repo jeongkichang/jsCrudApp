@@ -140,10 +140,27 @@ $(document).ready(function(){
         };
         timeCirclePosition("#" + circleName);
 
+        animateCircle(circleName, circleSpeed, circleSize);
+
         setTimeout(function(){
             if(gameOn == true) createCircle();
         }, 1000);
     };
 
+    function animateCircle(circleId, speed, circleSize){
+
+        var moveAbleWidth = $("body").width() - circleSize;
+        var moveAbleHeight = $("body").height() - circleSize;
+
+        var circleMoveLeft = (moveAbleWidth * Math.random()).toFixed();
+        var circleMoveTop = (moveAbleHeight * Math.random()).toFixed();
+
+        $("#" + circleId).animate({
+            top: circleMoveTop,
+            left: circleMoveLeft
+        }, speed, function(){
+            animateCircle(circleId, speed, circleSize);
+        });
+    }
 
 });
