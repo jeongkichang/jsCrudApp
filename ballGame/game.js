@@ -222,8 +222,19 @@ $(document).ready(function(){
         $("#highscores").toggle();
 
         $(".reset_button").click(function(){
-            // gameReset();
+            gameReset();
         });
     };
+
+    function gameReset(){
+        $("#highscores").fadeToggle(100, function(){
+            t = 0;
+            $(".timer").html("<h1><div class='center'>"+t.toFixed(2)+"</div<</h1>");
+            $(".reset_button").remove();
+            $(".score").remove();
+            $(".start_button").toggle();
+            $(".redcircle").remove();
+        })
+    }
 
 });
