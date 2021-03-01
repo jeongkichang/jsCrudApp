@@ -67,7 +67,7 @@ $(document).ready(function(){
             gameOn = true;
             timer();
             $(".space").mouseenter(function(){
-                // endGame();
+                endGame();
             });
             createCircle();
         });
@@ -133,7 +133,7 @@ $(document).ready(function(){
                     // 부딪힌 공 빨간색으로 표시
                     $(circleTrackID).removeClass("circle").addClass("redcircle");
                     $(circleTrackID).css("background-color", "red")
-                    // endgame();
+                    endGame();
                 };
                 timeCirclePosition(circleTrackID);
             }, 1);
@@ -162,5 +162,68 @@ $(document).ready(function(){
             animateCircle(circleId, speed, circleSize);
         });
     }
+
+    // 게임 오버 함수
+    function endGame(){
+        if(gameOn == true){
+            gameOn = false;
+            updateScores(t);
+            $(".circle").remove();
+            $(".redcircle").stop();
+        }
+    };
+
+    var resetButton = "<div class='reset_button center'><h2>Play Again</h2></div>";
+
+    var highScore_1 = 0.00;
+    var highScore_2 = 0.00;
+    var highScore_3 = 0.00;
+    var highScore_4 = 0.00;
+    var highScore_5 = 0.00;
+    
+    // update score 함수
+    function updateScores(newScore){
+
+        if(newScore > highScore_1){
+            var redScore = "score1";
+            highScore_5 = highScore_4;
+            highScore_4 = highScore_3;
+            highScore_3 = highScore_2;
+            highScore_2 = highScore_1;
+            highScore_1 = newScore;
+        }else if(newScore > highScore_2){
+            var redScore = "score2";
+            highScore_5 = highScore_4;
+            highScore_4 = highScore_3;
+            highScore_3 = highScore_2;
+            highScore_2 = newScore;
+        }else if(newScore > highScore_3){
+            var redScore = "score3";
+            highScore_5 = highScore_4;
+            highScore_4 = highScore_3;
+            highScore_3 = newScore;
+        }else if(newScore > highScore_4){
+            var redScore = "score4";
+            highScore_5 = highScore_4;
+            highScore_4 = newScore;
+        }else if(newScore > highScore_5){
+            var redScore = "score5";
+            highScore_5 = newScore;
+        }
+
+        var highScorePlace_1 = "<div id='score1' class='score center'><h2>" + highScore_1.toFixed(2) + "</h2></div>";
+        var highScorePlace_2 = "<div id='score2' class='score center'><h2>" + highScore_2.toFixed(2) + "</h2></div>";
+        var highScorePlace_3 = "<div id='score3' class='score center'><h2>" + highScore_3.toFixed(2) + "</h2></div>";
+        var highScorePlace_4 = "<div id='score4' class='score center'><h2>" + highScore_4.toFixed(2) + "</h2></div>";
+        var highScorePlace_5 = "<div id='score5' class='score center'><h2>" + highScore_5.toFixed(2) + "</h2></div>";
+
+        $("#highscores").append(highScorePlace_1, highScorePlace_2, highScorePlace_3, highScorePlace_4, highScorePlace_5, resetButton);
+        $("#"+redScore).css("color", "red");
+        $("#highscores").toggle();
+
+        $(".reset_button").click(function(){
+            // gameReset();
+        });
+    };
 
 });
