@@ -25,7 +25,7 @@ $(document).ready(function(){
             7.5,
             4000
         ],
-        "larget": [
+        "large": [
             "yellow",
             30,
             15,
@@ -67,10 +67,83 @@ $(document).ready(function(){
             gameOn = true;
             timer();
             $(".space").mouseenter(function(){
-                endGame();
+                // endGame();
             });
             createCircle();
         });
     });
+
+    // 공을 생성하는 함수
+    function createCircle(){
+        circleNumber++;
+
+        // small medium large 셋 중 하나를 랜덤하게 생성
+        // 1부터 3까지의 정수 중 하나를 랜덤하게 생성
+        var randomNum = Math.floor((3 * Math.random())+1);
+
+        var circleChoice;
+        switch(randomNum){
+            case 1:
+                circleChoice = "small";
+                break;
+            case 2:
+                circleChoice = "medium";
+                break;
+            case 3:
+                circleChoice = "large";
+                break;
+        }
+
+        // 공의 id 값을 지정
+        var circleName = "circle" + circleNumber;
+
+        var circleColor = circleTypes[circleChoice][0];
+        var circleSize = circleTypes[circleChoice][1];
+        var circleRadius = circleTypes[circleChoice][2];
+        var circleSpeed = circleTypes[circleChoice][3];
+
+        var moveAbleWidth = $("body").width() - circleSize;
+        var moveAbleHeight = $("body").height() - circleSize;
+
+        var circlePositionLeft = (moveAbleWidth * Math.random()).toFixed();
+        var circlePositionTop = (moveAbleHeight * Math.random()).toFixed();
+
+        var newCircle = "<div class='circle' id='"+circleName+"'></div>";
+        $("body").append(newCircle);
+
+        $("#"+circleName).css({
+            "background-color": circleColor,
+            "width": circleSize + "vmin",
+            "height": circleSize + "vmin",
+            "border-radius": circleRadius + "vmin",
+            "top": circlePositionTop + "px",
+            "left": circlePositionLeft + "px"
+        });
+
+        // 1ms마다 반복 실행하면서 마우스와의 거리를 계산하는 함수
+        function timeCirclePosition(circleTrackID) {
+            // 1ms 마다 반복실행
+            setTimeout(function () {
+                var currentCirclePosition = $(circleTrackID).position();
+                var calculatedRadius = parseInt($(circleTrackID).css("width")) * 0.5;
+                // 마우스와의 거리 계산 - 만일 거리가 반지름보다 작다면(맞닿았다면) 게임 종료
+                var distanceX = mouseX - (currentCirclePosition.left + calculatedRadius);
+                var distanceY = mouseY - (currentCirclePosition.top + calculatedRadius);
+                if (Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2)) <= calculatedRadius) {
+                    // 부딪힌 공 빨간색으로 표시
+                    $(circleTrackID).removeClass("circle").addClass("redcircle");
+                    $(circleTrackID).css("background-color", "red")
+                    // endgame();
+                };
+                timeCirclePosition(circleTrackID);
+            }, 1);
+        };
+        timeCirclePosition("#" + circleName);
+
+        setTimeout(function(){
+            if(gameOn == true) createCircle();
+        }, 1000);
+    };
+
 
 });
