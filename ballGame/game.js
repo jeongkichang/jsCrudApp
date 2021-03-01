@@ -62,5 +62,15 @@ $(document).ready(function(){
     }
 
     // 시작 버튼
+    $(".start_button").click(function(){
+        $(".start_button").fadeToggle(500, function(){
+            gameOn = true;
+            timer();
+            $(".space").mouseenter(function(){
+                endGame();
+            });
+            createCircle();
+        });
+    });
 
 });
