@@ -19,13 +19,13 @@ function buildPopupDom(divName, data){
         a.appendChild(document.createTextNode(data[i]));
         a.addEventListener('click', onAnchorClick);
 
-        var li = dolcument.createElement('li');
+        var li = document.createElement('li');
         li.appendChild(a);
         ul.appendChild(li);
     }
 };
 
-function buildTypeUrlList(divName){
+function buildTypedUrlList(divName){
 
     var ms = 1000 * 60 * 60 * 24 * 7;
     var oneWeekAgo = (new Date).getTime() - ms;
@@ -55,14 +55,14 @@ function buildTypeUrlList(divName){
         }
     });
 
-    var urlTocount = {};
+    var urlToCount = {};
     var processVisits = function(url, visitItems){
         for(var i = 0, ie = visitItems.length; i < ie; ++i){
             if(visitItems[i].transition != 'typed'){
                 continue;
             }
             if(!urlToCount[url]){
-                urlTocount[url] = 0;
+                urlToCount[url] = 0;
             }
 
             urlToCount[url]++;
